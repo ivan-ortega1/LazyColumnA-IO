@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "901435559758",
+    "project_id": "lazycolumna-ecbad",
+    "storage_bucket": "lazycolumna-ecbad.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:901435559758:android:de7ef2dbdc06666c4dd81f",
+        "android_client_info": {
+          "package_name": "org.insbaixcamp.lazycolumna"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQhxs5_rmnGiN19ysMmjSEE_IlmV9jVFw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
