@@ -5,8 +5,11 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,9 +19,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import org.insbaixcamp.lazycolumna.model.Cat
+import org.insbaixcamp.lazycolumna.ui.components.CatItem
 import org.insbaixcamp.lazycolumna.ui.theme.LazyColumnATheme
 
 class MainActivity : ComponentActivity() {
@@ -67,11 +72,20 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
         }
     }
 
-
     Text(
         text = "Hello $name!",
         modifier = modifier
     )
+
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        items(
+            items = kittens,
+            key = { it.id },
+        ){cat -> CatItem(cat = cat)}
+    }
+
 }
 
 @Preview(showBackground = true)
