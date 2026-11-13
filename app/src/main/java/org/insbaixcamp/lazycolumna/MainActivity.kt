@@ -70,12 +70,14 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
         Log.e(TAG, "Ha donat un error al escriure a la base de dades")
     }
 
-    db.collection("cats").get().addOnSuccessListener { snapShot ->
+    db.collection("cats").addSnapshotListener { result, exception ->
         var kittensTmp: ArrayList<Cat> = arrayListOf()
-        for (tmpKitten in snapShot) {
-            var kittenTmp: Cat = tmpKitten.toObject(Cat::class.java)
-            kittensTmp.add(kittenTmp)
-            Log.i(TAG, "Document: ${tmpKitten.data}")
+        if (result != null) {
+            for (tmpKitten in result) {
+                var kittenTmp: Cat = tmpKitten.toObject(Cat::class.java)
+                kittensTmp.add(kittenTmp)
+                Log.i(TAG, "Document: ${tmpKitten.data}")
+            }
         }
         kittens = kittensTmp
     }
