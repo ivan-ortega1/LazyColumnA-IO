@@ -6,7 +6,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -46,17 +48,21 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     val TAG = "MainActivity"
+    var kittens by remember { mutableStateOf<List<Cat>>(emptyList()) }
     val db = Firebase.firestore
-    var kittens: MutableList<Cat> = mutableListOf()
-    var castanya: Cat by remember { mutableStateOf(Cat(
-        id = "1",
-        name = "Castanya",
-        age = 1,
-        breed = "",
-        color = "Gray",
-        sex = "Female",
-        weight = 1.0
-    )) }
+    var castanya: Cat by remember {
+        mutableStateOf(
+    Cat(
+                id = "1",
+                name = "Castanya",
+                age = 1,
+                breed = "",
+                color = "Gray",
+                sex = "Female",
+                weight = 1.0
+            )
+        )
+    }
 
     db.collection("cats").add(castanya).addOnSuccessListener {
         Log.i(TAG, "Escriu correcte")
@@ -65,27 +71,29 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
     }
 
     db.collection("cats").get().addOnSuccessListener { snapShot ->
-        for (tmpCat in snapShot) {
-            var kitten: Cat = tmpCat.toObject(Cat::class.java)
-            kittens.add(kitten)
-            Log.i(TAG, "Document: ${tmpCat.data}")
+        var kittensTmp: ArrayList<Cat> = arrayListOf()
+        for (tmpKitten in snapShot) {
+            var kittenTmp: Cat = tmpKitten.toObject(Cat::class.java)
+            kittensTmp.add(kittenTmp)
+            Log.i(TAG, "Document: ${tmpKitten.data}")
+        }
+        kittens = kittensTmp
+    }
+
+    Column() {
+        Text(
+            text = "Hello $name!",
+            modifier = modifier
+        )
+        LazyColumn(
+            modifier = Modifier.fillMaxSize().fillMaxWidth()
+        ) {
+            items(
+                items = kittens,
+                key = { cat -> cat.id }
+            ){cat -> CatItem(cat)}
         }
     }
-
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-
-    LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(4.dp)
-    ) {
-        items(
-            items = kittens,
-            key = { it.id },
-        ){cat -> CatItem(cat = cat)}
-    }
-
 }
 
 @Preview(showBackground = true)

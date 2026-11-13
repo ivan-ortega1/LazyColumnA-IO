@@ -1,6 +1,7 @@
 package org.insbaixcamp.lazycolumna.ui.components
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
@@ -14,9 +15,32 @@ import org.insbaixcamp.lazycolumna.model.Cat
 @Composable
 fun CatItem(cat: Cat) {
     Column(Modifier.fillMaxWidth()) {
-        Card(Modifier.padding(4.dp)) {
-            Text(text = cat.name)
-            Text(text = cat.age.toString())
+        Card(Modifier.fillMaxWidth().padding(4.dp)) {
+            Row() {
+                Column(modifier = Modifier.weight(1f).padding(8.dp)) {
+                    Text(text = "Nom: ${cat.name}")
+                    Text(text = "Raça: ${cat.breed}")
+                }
+                Column(modifier = Modifier.weight(1f).padding(8.dp)) {
+                    Text(text = "Edat: ${cat.age}")
+                    Text(text = "Color: ${cat.color}")
+                }
+            }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun CatItemPreview(){
+    var cat: Cat = Cat(
+        id = "1",
+        name = "Castanya",
+        age = 1,
+        breed = "Gris",
+        color = "Gray",
+        sex = "Female",
+        weight = 1.0
+    )
+    CatItem(cat)
 }
